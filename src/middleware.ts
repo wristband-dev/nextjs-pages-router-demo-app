@@ -59,8 +59,7 @@ export async function middleware(req: NextRequest) {
     /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
     const tokenData = await wristbandAuth.refreshTokenIfExpired(refreshToken!, expiresAt);
     if (tokenData) {
-      // Convert the "expiresIn" seconds into an expiration date with the format of milliseconds from the epoch.
-      session.expiresAt = Date.now() + tokenData.expiresIn * 1000;
+      session.expiresAt = tokenData.expiresAt;
       session.accessToken = tokenData.accessToken;
       session.refreshToken = tokenData.refreshToken;
     }

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { getSession } from '@/session/iron-session';
 import { parseUserinfo } from '@/utils/helpers';
-import { INVOTASTIC_HOST } from '@/utils/constants';
+import { APP_HOME_URL } from '@/utils/constants';
 import { wristbandAuth } from '@/wristband-auth';
 import { CallbackResultType, CallbackResult } from '@wristband/nextjs-auth';
 import { Userinfo } from '@/types/wristband-types';
@@ -23,8 +23,7 @@ export default async function handleCallback(req: NextApiRequest, res: NextApiRe
     const session = await getSession(req, res);
     session.isAuthenticated = true;
     session.accessToken = callbackData!.accessToken;
-    // Convert the "expiresIn" seconds into an expiration date with the format of milliseconds from the epoch.
-    session.expiresAt = Date.now() + callbackData!.expiresIn * 1000;
+    session.expiresAt = callbackData!.expiresAt;
     session.refreshToken = callbackData!.refreshToken;
     session.user = parseUserinfo(callbackData!.userinfo as Userinfo);
     session.tenantDomainName = callbackData!.tenantDomainName;
@@ -38,8 +37,8 @@ export default async function handleCallback(req: NextApiRequest, res: NextApiRe
     // Save all fields into the session
     await session.save();
 
-    // Send the user back to the Invotastic application.
-    return res.redirect(callbackData!.returnUrl || `http://${INVOTASTIC_HOST}`);
+    // Send the user back to the application.
+    return res.redirect(callbackData!.returnUrl || APP_HOME_URL);
   } catch (error: unknown) {
     console.error(error);
   }

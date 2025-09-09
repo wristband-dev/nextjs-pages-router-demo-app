@@ -1,4 +1,4 @@
-export const INVOTASTIC_HOST: string = 'localhost:6001';
+export const APP_HOME_URL: string = 'http://localhost:6001'
 
 export const JSON_MEDIA_TYPE: string = 'application/json;charset=UTF-8';
 export const SESSION_COOKIE_NAME: string = 'session';

@@ -101,7 +101,7 @@ For reference, the home page of this app can be accessed at [http://localhost:60
 
 Users of the app can access the Application-level Login Page at the following location:
 
-- `https://{application_vanity_domain}/login`, where `{application_vanity_domain}` should be replaced with the value of the "Application Vanity Domain" value of the Invotastic for Business application (can be found in the Wristband Dashboard by clicking the Application Settings side menu of this app).
+- `https://{application_vanity_domain}/login`, where `{application_vanity_domain}` should be replaced with the value of the "Application Vanity Domain" value of the demo application (can be found in the Wristband Dashboard by clicking the Application Settings side menu of this app).
 
 This login page is hosted by Wristband.  Here, the user will be prompted to enter their tenant's domain name for which they want to log in to.  Successfully entering the tenant domain name will redirect the user to the tenant-level login page for their specific tenant.
 
@@ -121,7 +121,7 @@ The NextJS server is responsible for:
 - Handling the OAuth2 authorization code flow redirections to and from Wristband during user login.
 - Creating the application session cookie to be sent back to the browser upon successful login.  The application session cookie contains the access and refresh tokens as well as some basic user info.
 - Refreshing the access token if the access token is expired.
-- Orchestrating all API calls from the React frontend to both Wristband and the Invotastic backend data store.
+- Orchestrating all API calls from the React frontend to both Wristband and the demo backend data store.
 - Destroying the application session cookie and revoking the refresh token when a user logs out.
 
 API calls made from React to the NextJS server pass along the application session cookie with every request.  The NextJS middleware peforms the following actions on all protected page and API routes:
@@ -136,7 +136,7 @@ It is also important to note that Wristband hosts all onboarding workflow pages 
 Within the demo app code base, you can search in your IDE of choice for the text `WRISTBAND_TOUCHPOINT`.  This will show the various places in both the React frontend code and NextJS server code where Wristband is involved.  You will find the search results return one of a few possible comments using that search text:
 
 - `/* WRISTBAND_TOUCHPOINT - AUTHENTICATION */` - Code that deals with an authenticated user's application session.  This includes managing their application session cookie and JWTs, OAuth2-related endpoints for login/callback/logout, API routes and SSR pages for validating/refreshing tokens, and React context used to check the user's authenticated session.
-- `/* WRISTBAND_TOUCHPOINT - AUTHORIZATION */` - Code that checks whether a user has the required permissions to interact with Invotastic-specific resource APIs or can access certain application functionality in the UI.
+- `/* WRISTBAND_TOUCHPOINT - AUTHORIZATION */` - Code that checks whether a user has the required permissions to interact with demo-specific resource APIs or can access certain application functionality in the UI.
 - `/* WRISTBAND_TOUCHPOINT - RESOURCE API */` - Code that interacts with any Wristband-specific resource APIs or workflow APIs that are not related to authentication or authorization directly.  For example, it could be an API call to update the user's profile or change their password.
 
 <br>
