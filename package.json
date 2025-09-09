@@ -9,7 +9,7 @@
     "npm": ">=8.19.2"
   },
   "scripts": {
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next dev -p 6001",
+    "dev": "next dev -p 6001",
     "build": "next build",
     "start": "next start -p 6001",
     "lint": "next lint"
