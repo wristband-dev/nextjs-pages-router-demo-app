@@ -9,7 +9,7 @@ export default async function sessionRoute(req: NextApiRequest, res: NextApiResp
 
   const session = await getSession(req, res);
   const { user } = session;
-  const { email, tenantId } = user;
+  const { email, tenantId, id } = user;
 
-  res.status(200).json({ userId: undefined, tenantId, metadata: { email } });
+  res.status(200).json({ userId: id, tenantId, metadata: { email } });
 }

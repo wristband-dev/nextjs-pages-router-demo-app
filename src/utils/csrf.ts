@@ -11,7 +11,7 @@ export function createCsrfToken(): string {
 }
 
 export async function updateCsrfCookie(csrfToken: string, res: Response | NextApiResponse) {
-  const cookieValue = `${CSRF_TOKEN_COOKIE_NAME}=${csrfToken}; Path=/; SameSite=Strict; Max-Age=1800`;
+  const cookieValue = `${CSRF_TOKEN_COOKIE_NAME}=${csrfToken}; Path=/; SameSite=Strict; Max-Age=1800; Secure`;
 
   if (res instanceof Response) {
     // For Edge runtime, append the cookie header using Response's headers.
