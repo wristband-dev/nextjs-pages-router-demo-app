@@ -1,58 +1,46 @@
-import { FaExclamationTriangle } from 'react-icons/fa';
+import { useState } from 'react';
+import { useWristbandAuth } from '@wristband/react-client-auth';
 
-import { isForbiddenError, isUnauthorizedError } from '@/utils/helpers';
-import frontendApiService from '@/services/frontend-api-service';
-import { redirectToLogin, useWristbandAuth } from '@wristband/react-client-auth';
+import { CookieTestForm, TabSelectorButton, TokenTestForm } from '@/components';
 
 export default function HomePage() {
+  const [activeTab, setActiveTab] = useState<'cookie' | 'token'>('cookie');
+
   /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
   const { isAuthenticated, isLoading } = useWristbandAuth();
 
-  const sayHello = async () => {
-    try {
-      const data = await frontendApiService.sayHello();
-      alert(data.message);
-    } catch (error: unknown) {
-      console.log(error);
-
-      /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
-      if (isUnauthorizedError(error) || isForbiddenError(error)) {
-        redirectToLogin('/api/auth/login', { returnUrl: encodeURI(window.location.href) });
-        return;
-      }
-
-      alert(error);
-    }
-  };
-
   return (
     <section>
-      <div className="my-0 mx-auto">
-        <h1 className="text-3xl font-bold underline">Home</h1>
-      </div>
-
-      <div className="p-4 my-4">
-        <div className="flex items-center bg-yellow bg-opacity-60 rounded-lg p-4 shadow-md w-full max-w-[600px] mx-auto font-medium">
-          <FaExclamationTriangle className="text-2xl mr-4 min-w-[32px]" color="black" />
-          <p className="text-lg text-left">We aim to add more functionality to this demo soon.</p>
-        </div>
+      <div className="mt-8 mb-4 mx-auto">
+        <h1 className="text-2xl font-bold underline">Client-side API Route Calls</h1>
+        <p className="mt-8 mx-auto">
+          This page is protcted by the auth middleware/proxy before rendering. Once the page is rendered, it relies on
+          the useWristbandAuth() React hook to perform an auth check before displaying the forms below.
+        </p>
       </div>
 
       <div className="my-8 mx-auto">
-        {isLoading && <h3>Loading...</h3>}
+        {isLoading && <h2>Loading...</h2>}
         {isAuthenticated && (
-          <>
-            <h2 className="mb-4 font-bold">Client-side API Route Call</h2>
-            <button
-              id="say-hello-button"
-              type="button"
-              tabIndex={0}
-              onClick={sayHello}
-              className="shadow-md cursor-pointer bg-[#00ffc1] hover:brightness-90 text-[#0c0c0c] rounded py-2 px-8 font-semibold text-lg transition ease-in-out duration-200"
-            >
-              Say Hello
-            </button>
-          </>
+          <div className="flex flex-col gap-2 w-full">
+            <hr className="my-2" />
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <TabSelectorButton
+                title="API Route - Session Cookie"
+                isActive={activeTab === 'cookie'}
+                onClick={() => setActiveTab('cookie')}
+              />
+              <TabSelectorButton
+                title="API Route - Access Token"
+                isActive={activeTab === 'token'}
+                onClick={() => setActiveTab('token')}
+              />
+            </div>
+            <div className="flex flex-col gap-2 w-full">
+              {activeTab === 'cookie' && <CookieTestForm />}
+              {activeTab === 'token' && <TokenTestForm />}
+            </div>
+          </div>
         )}
       </div>
     </section>
