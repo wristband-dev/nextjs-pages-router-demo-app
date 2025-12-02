@@ -3,16 +3,20 @@ import { WristbandAuthProvider } from '@wristband/react-client-auth';
 
 import '@/styles/globals.css';
 
-import Layout from '@/components/root-layout';
-import { MySessionMetadata } from '@/types/wristband-types';
+import { RootLayout } from '@/components';
+import { MySessionMetadata } from '@/types';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
-    <WristbandAuthProvider<MySessionMetadata> loginUrl="/api/auth/login" sessionUrl="/api/v1/session">
-      <Layout>
+    <WristbandAuthProvider<MySessionMetadata>
+      loginUrl="/api/auth/login"
+      sessionUrl="/api/auth/session"
+      tokenUrl="/api/auth/token"
+    >
+      <RootLayout>
         <Component {...pageProps} />
-      </Layout>
+      </RootLayout>
     </WristbandAuthProvider>
   );
 }

@@ -1,45 +1,38 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { getSession } from '@/session/iron-session';
-import { parseUserinfo } from '@/utils/helpers';
-import { APP_HOME_URL } from '@/utils/constants';
-import { wristbandAuth } from '@/wristband-auth';
-import { CallbackResultType, CallbackResult } from '@wristband/nextjs-auth';
-import { Userinfo } from '@/types/wristband-types';
-import { createCsrfToken, updateCsrfCookie } from '@/utils/csrf';
+import { getSession, wristbandAuth } from '@/wristband';
 
-export default async function handleCallback(req: NextApiRequest, res: NextApiResponse) {
+const APP_HOME_URL: string = 'http://localhost:6001';
+
+/**
+ * Callback Endpoint
+ */
+export default async function callbackEndpoint(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') {
+    res.status(405).end();
+    return;
+  }
+
   try {
     /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
     // After the user authenticates, exchange the incoming authorization code for JWTs and also retrieve userinfo.
-    const callbackResult: CallbackResult = await wristbandAuth.pageRouter.callback(req, res);
+    const callbackResult = await wristbandAuth.pagesRouter.callback(req, res);
     const { callbackData, redirectUrl, type } = callbackResult;
 
-    if (type === CallbackResultType.REDIRECT_REQUIRED) {
-      return res.redirect(redirectUrl!);
+    if (type === 'redirect_required') {
+      res.redirect(redirectUrl);
+      return;
     }
 
-    // Save any necessary fields for the user's app session into a session cookie.
-    const session = await getSession(req, res);
-    session.isAuthenticated = true;
-    session.accessToken = callbackData!.accessToken;
-    session.expiresAt = callbackData!.expiresAt;
-    session.refreshToken = callbackData!.refreshToken;
-    session.user = parseUserinfo(callbackData!.userinfo as Userinfo);
-    session.tenantDomainName = callbackData!.tenantDomainName;
-    session.tenantCustomDomain = callbackData!.tenantCustomDomain || undefined;
-
-    // Establish CSRF secret and cookie.
-    const csrfToken = createCsrfToken();
-    session.csrfToken = csrfToken;
-    await updateCsrfCookie(csrfToken, res);
-
     // Save all fields into the session
+    const session = await getSession(req, res);
+    session.fromCallback(callbackData, { email: callbackData.userinfo.email });
     await session.save();
 
     // Send the user back to the application.
-    return res.redirect(callbackData!.returnUrl || APP_HOME_URL);
+    res.redirect(callbackData.returnUrl || APP_HOME_URL);
   } catch (error: unknown) {
     console.error(error);
+    res.status(500).end();
   }
 }
