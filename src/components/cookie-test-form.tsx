@@ -25,7 +25,7 @@ export function CookieTestForm() {
 
       /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
       if (isAxiosError(error) && [401, 403].includes(error?.response!.status)) {
-        redirectToLogin('/api/auth/login', { tenantDomain: tenantName });
+        redirectToLogin('/api/auth/login', { tenantName });
         window.alert('Authentication required.');
       } else {
         window.alert(`Error: ${error}`);
