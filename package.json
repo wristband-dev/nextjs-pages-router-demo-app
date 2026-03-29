@@ -15,13 +15,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@wristband/nextjs-auth": "^4.0.2",
+    "@wristband/nextjs-auth": "^4.1.0",
     "@wristband/react-client-auth": "^3.0.0",
-    "axios": "^1.13.2",
-    "next": "^15.5.9",
+    "axios": "^1.14.0",
+    "next": "^15.5.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-icons": "^5.3.0",
+    "react-icons": "^5.6.0",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
@@ -39,8 +39,5 @@
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.18",
     "typescript": "^5.9.3"
-  },
-  "overrides": {
-    "glob": "^11.0.0"
   }
 }
