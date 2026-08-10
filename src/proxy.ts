@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 
 import { requireMiddlewareAuth } from '@/wristband';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   return await requireMiddlewareAuth(request);
 }
 
