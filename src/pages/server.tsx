@@ -34,14 +34,14 @@ export default function SettingsPage({ tenant }: { tenant: Tenant }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async function (context: GetServerSidePropsContext) {
-  const { req, res } = context;
+  const { req, res, resolvedUrl } = context;
 
   /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
   const session = await getSession(req, res);
   const { accessToken, isAuthenticated, tenantId } = session;
   if (!isAuthenticated || !accessToken || !tenantId) {
     return {
-      redirect: { destination: '/api/auth/login', permanent: false },
+      redirect: { destination: `/api/auth/login?return_url=${encodeURIComponent(resolvedUrl)}`, permanent: false },
     };
   }
 

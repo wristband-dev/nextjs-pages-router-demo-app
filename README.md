@@ -10,7 +10,8 @@
   <p align="center">
     <b>
       <a href="https://wristband.dev">Website</a> •
-      <a href="https://docs.wristband.dev">Documentation</a>
+      <a href="https://docs.wristband.dev">Documentation</a> •
+      <a href="https://docs.wristband.dev/llms.txt">LLMs.txt</a>
     </b>
   </p>
 </div>
@@ -37,9 +38,9 @@ This is a multi-tenant demo app that serves other companies as its customers. Th
 
 You can start up the demo application in a few simple steps.
 
-### 1) Sign up for an Wristband account.
+### 1) Sign up for a Wristband account.
 
-First thing is first: make sure you sign up for an Wristband account at [https://wristband.dev](https://wristband.dev).
+First thing is first: make sure you sign up for a Wristband account at [https://wristband.dev](https://wristband.dev).
 
 ### 2) Provision the Next.js Pages Router demo application in the Wristband Dashboard.
 
@@ -53,13 +54,13 @@ You can also follow the [Demo App Guide](https://docs.wristband.dev/docs/setting
 
 ### 3) Apply your Wristband configuration values to the Next.js server configuration
 
-Upon completing the demo application setup, you will be prompted with values that you should copy into the environment variable configuration for this demo repository, which is located in `.env`.  Replace the following values:
+After completing demo app creation, you will be prompted with values that you should use to create environment variables for the Next.js server. You should see:
 
 - `APPLICATION_VANITY_DOMAIN`
 - `CLIENT_ID`
 - `CLIENT_SECRET`
 
-Copy those values, then create an environment variable file in the root directory of this project: `.env`. Once created, paste the copied values into this file.
+Copy those values, then create an environment variable file on the server at: `.env`. Once created, paste the copied values into this file.
 
 ### 4) Install dependencies
 
@@ -119,7 +120,7 @@ Users also have the option here to execute the Forgot Tenant workflow and enteri
 
 ### Tenant-level Login
 
-If users wish to directly access their Tenant-level Login Page without having to go through Tenant Discovery, they can do so at [http://localhost:6001/api/auth/login?tenant_name={tenant_name}](http://localhost:6001/home), where `{tenant_name}` should be replaced with the value of the desired tenant's name.
+If users wish to directly access their Tenant-level Login Page without having to go through Tenant Discovery, they can do so at `http://localhost:6001/api/auth/login?tenant_name={tenant_name}`, where `{tenant_name}` should be replaced with the value of the desired tenant's name.
 
 This login page is hosted by Wristband.  Here, the user will be prompted to enter their credentials in order to login to the application.
 

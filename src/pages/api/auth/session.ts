@@ -16,7 +16,5 @@ export default async function sessionEndpoint(req: NextApiRequest, res: NextApiR
 
   const session = await getSession(req, res);
   const sessionResponse = session.getSessionResponse({ email: session.email });
-  res.setHeader('Cache-Control', 'no-store');
-  res.setHeader('Pragma', 'no-cache');
   res.status(200).json(sessionResponse);
 }

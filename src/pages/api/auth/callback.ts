@@ -17,9 +17,11 @@ export default async function callbackEndpoint(req: NextApiRequest, res: NextApi
     /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
     // After the user authenticates, exchange the incoming authorization code for JWTs and also retrieve userinfo.
     const callbackResult = await wristbandAuth.pagesRouter.callback(req, res);
-    const { callbackData, redirectUrl, type } = callbackResult;
+    const { callbackData, reason, redirectUrl, type } = callbackResult;
 
+    // Certain edge cases may require you to redirect back to the Login Endpoint
     if (type === 'redirect_required') {
+      console.debug(reason); // <- Optional debugging info
       res.redirect(redirectUrl);
       return;
     }
