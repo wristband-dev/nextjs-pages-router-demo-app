@@ -17,7 +17,5 @@ export default async function tokenEndpoint(req: NextApiRequest, res: NextApiRes
 
   const session = await getSession(req, res);
   const tokenResponse = session.getTokenResponse();
-  res.setHeader('Cache-Control', 'no-store');
-  res.setHeader('Pragma', 'no-cache');
   res.status(200).json(tokenResponse);
 }
